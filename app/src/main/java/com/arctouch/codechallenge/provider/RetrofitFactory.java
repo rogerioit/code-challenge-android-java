@@ -13,13 +13,13 @@ import retrofit2.converter.moshi.MoshiConverterFactory;
 public class RetrofitFactory {
 
 	private static TmdbApi tmdbApi;
-
+	
 	private RetrofitFactory() {
 		//preventing the creation of useless instances
 	}
-
+	
 	public static TmdbApi provideTmdbApi() {
-
+	
 		if( tmdbApi == null ) {
 			tmdbApi = new Retrofit.Builder()
 					.baseUrl(TmdbApi.URL)
@@ -29,7 +29,7 @@ public class RetrofitFactory {
 					.build()
 					.create(TmdbApi.class);
 		}
-
+	
 		return tmdbApi;
 	}
 }
