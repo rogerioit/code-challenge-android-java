@@ -10,11 +10,11 @@ import io.reactivex.annotations.NonNull;
 public class Cache {
 
     private static @NonNull List<Genre> genres = new ArrayList<>();
-
+    
     public static @NonNull List<Genre> getGenres() {
         return genres;
     }
-
+    
     public static void setGenres(@NonNull List<Genre> genres) {
         Cache.genres.clear();
         Cache.genres.addAll(genres);
