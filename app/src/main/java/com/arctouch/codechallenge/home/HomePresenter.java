@@ -34,7 +34,6 @@ class HomePresenter implements HomeContract.Presenter {
 
 			api.genres(TmdbApi.API_KEY, TmdbApi.DEFAULT_LANGUAGE)
 					.subscribeOn(Schedulers.io())
-					.observeOn(AndroidSchedulers.mainThread())
 					.blockingForEach(response -> Cache.setGenres(response.genres));
 
 		}
