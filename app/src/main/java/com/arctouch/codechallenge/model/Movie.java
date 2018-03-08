@@ -5,9 +5,10 @@ import com.squareup.moshi.Json;
 import java.util.List;
 
 public class Movie {
-    public int id;
+    public long id;
     public String title;
     public String overview;
+	@Json(name = "genres")
     public List<Genre> genres;
     @Json(name = "genre_ids")
     public List<Integer> genreIds;
@@ -41,7 +42,7 @@ public class Movie {
 
     @Override
     public int hashCode() {
-        int result = id;
+        int result = (int) (id ^ (id >>> 32));
         result = 31 * result + (title != null ? title.hashCode() : 0);
         result = 31 * result + (overview != null ? overview.hashCode() : 0);
         result = 31 * result + (genres != null ? genres.hashCode() : 0);

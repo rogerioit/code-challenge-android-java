@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="bottomProgressBarSize">30dp</dimen>
+    <dimen name="image_view_movie_width_poster">200dp</dimen>
+    <dimen name="image_view_movie_height_poster">300dp</dimen>
 </resources>

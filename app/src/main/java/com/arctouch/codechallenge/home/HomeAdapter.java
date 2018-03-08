@@ -21,8 +21,15 @@ import java.util.List;
 public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
 
     private @NonNull final List<Movie> movies = new ArrayList<>();
+	private final OnItemClickListener mItemClickListener;
 
-    HomeAdapter() {}
+	HomeAdapter(@NonNull OnItemClickListener itemClickListener) {
+    	this.mItemClickListener = itemClickListener;
+    }
+
+	interface OnItemClickListener {
+		void onItemClick(Movie item);
+	}
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -41,7 +48,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
             posterImageView = itemView.findViewById(R.id.posterImageView);
         }
 
-	    void bind(Movie movie) {
+	    void bind(Movie movie, OnItemClickListener listener) {
             titleTextView.setText(movie.title);
             genresTextView.setText(TextUtils.join(", ", movie.genres));
             releaseDateTextView.setText(movie.releaseDate);
@@ -53,6 +60,8 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
                         .apply(new RequestOptions().placeholder(R.drawable.ic_image_placeholder))
                         .into(posterImageView);
             }
+
+		    itemView.setOnClickListener(v -> listener.onItemClick(movie));
         }
     }
 
@@ -70,7 +79,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.bind(movies.get(position));
+        holder.bind(movies.get(position), mItemClickListener);
     }
 
     void addItems(@NonNull List<Movie> results) {

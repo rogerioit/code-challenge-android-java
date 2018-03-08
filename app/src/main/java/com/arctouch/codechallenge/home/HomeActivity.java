@@ -1,5 +1,6 @@
 package com.arctouch.codechallenge.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,6 +12,7 @@ import android.widget.ProgressBar;
 
 import com.arctouch.codechallenge.R;
 import com.arctouch.codechallenge.model.Movie;
+import com.arctouch.codechallenge.movie.details.MovieDetailsActivity;
 import com.arctouch.codechallenge.view.EndlessRecyclerViewScrollListener;
 
 import java.util.List;
@@ -37,7 +39,9 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
 	    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
 	    mRecyclerView.setLayoutManager(linearLayoutManager);
 
-	    mAdapter = new HomeAdapter();
+	    mAdapter = new HomeAdapter(movie -> startActivity(
+	    		new Intent( HomeActivity.this, MovieDetailsActivity.class ).putExtras( MovieDetailsActivity.generateExtras(movie) ) )
+	    );
 
 	    mRecyclerView.setAdapter(mAdapter);
 
