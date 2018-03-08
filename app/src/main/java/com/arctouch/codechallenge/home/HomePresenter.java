@@ -1,7 +1,5 @@
 package com.arctouch.codechallenge.home;
 
-import android.view.View;
-
 import com.arctouch.codechallenge.api.TmdbApi;
 import com.arctouch.codechallenge.data.Cache;
 import com.arctouch.codechallenge.model.Genre;
@@ -10,6 +8,7 @@ import com.arctouch.codechallenge.provider.RetrofitFactory;
 
 import java.util.ArrayList;
 
+import io.reactivex.Completable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -28,8 +27,7 @@ class HomePresenter implements HomeContract.Presenter {
 		this.api = RetrofitFactory.provideTmdbApi();
 	}
 
-	@Override
-	public void loadGenresCache() {
+	private void loadGenresCache() {
 
 		// if it is loaded, no need to request again
 		if( Cache.getGenres().isEmpty() ) {
@@ -37,14 +35,16 @@ class HomePresenter implements HomeContract.Presenter {
 			api.genres(TmdbApi.API_KEY, TmdbApi.DEFAULT_LANGUAGE)
 					.subscribeOn(Schedulers.io())
 					.observeOn(AndroidSchedulers.mainThread())
-					.subscribe( response -> Cache.setGenres(response.genres) );
+					.blockingForEach(response -> Cache.setGenres(response.genres));
 
 		}
 	}
 
 	@Override
-	public void loadUpcomingMovies() {
-		api.upcomingMovies(TmdbApi.API_KEY, TmdbApi.DEFAULT_LANGUAGE, 1L, TmdbApi.DEFAULT_REGION)
+	public void loadUpcomingMovies(final long page) {
+
+		Completable.fromAction(this::loadGenresCache)
+				.andThen( api.upcomingMovies(TmdbApi.API_KEY, TmdbApi.DEFAULT_LANGUAGE, page, TmdbApi.DEFAULT_REGION) )
 				.subscribeOn(Schedulers.io())
 				.observeOn(AndroidSchedulers.mainThread())
 				.subscribe(response -> {
@@ -57,9 +57,11 @@ class HomePresenter implements HomeContract.Presenter {
 						}
 					}
 
-					//todo call mView to update data and hide the progressbar!
-					//recyclerView.setAdapter(new HomeAdapter(response.results));
-					//progressBar.setVisibility(View.GONE);
+					mView.hideCenteredProgressBar();
+
+					mView.addMoviesToList( response.results );
+
+					mView.hideBottomProgressBar();
 				});
 	}
 }

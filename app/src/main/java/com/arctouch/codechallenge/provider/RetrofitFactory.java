@@ -13,7 +13,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory;
 public class RetrofitFactory {
 
 	private RetrofitFactory() {
-		//preventing to create useless instances
+		//preventing the creation of useless instances
 	}
 
 	public static TmdbApi provideTmdbApi() {
