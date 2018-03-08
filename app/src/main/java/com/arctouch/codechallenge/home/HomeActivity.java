@@ -22,39 +22,39 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
 	private ProgressBar mCenteredProgressBar;
 	private ProgressBar mBottomProgressBar;
 
-    private HomeContract.Presenter presenter;
+	private HomeContract.Presenter presenter;
 	private HomeAdapter mAdapter;
 
 	@Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.home_activity);
+	protected void onCreate(@Nullable Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.home_activity);
 
-        this.presenter = new HomePresenter(this);
+		this.presenter = new HomePresenter(this);
 
 		RecyclerView mRecyclerView = findViewById(R.id.recyclerView);
-	    this.mCenteredProgressBar = findViewById(R.id.centeredProgressBar);
-	    this.mBottomProgressBar = findViewById(R.id.bottomProgressBar);
+		this.mCenteredProgressBar = findViewById(R.id.centeredProgressBar);
+		this.mBottomProgressBar = findViewById(R.id.bottomProgressBar);
 
-	    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-	    mRecyclerView.setLayoutManager(linearLayoutManager);
+		LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+		mRecyclerView.setLayoutManager(linearLayoutManager);
 
-	    mAdapter = new HomeAdapter(movie -> startActivity(
-	    		new Intent( HomeActivity.this, MovieDetailsActivity.class ).putExtras( MovieDetailsActivity.generateExtras(movie) ) )
-	    );
+		mAdapter = new HomeAdapter(movie -> startActivity(
+		        new Intent( HomeActivity.this, MovieDetailsActivity.class ).putExtras( MovieDetailsActivity.generateExtras(movie) ) )
+		);
 
-	    mRecyclerView.setAdapter(mAdapter);
+		mRecyclerView.setAdapter(mAdapter);
 
-	    mRecyclerView.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+		mRecyclerView.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
 		    @Override
 		    public void onLoadMore(long page, long totalItemsCount, RecyclerView view) {
 			    showBottomProgressBar();
 			    presenter.loadUpcomingMovies(page);
 		    }
-	    });
+		});
 
-        presenter.loadUpcomingMovies(1L);
-    }
+		presenter.loadUpcomingMovies(1L);
+	}
 
 	private void showBottomProgressBar() {
 		if(mBottomProgressBar.getVisibility() == View.GONE) {

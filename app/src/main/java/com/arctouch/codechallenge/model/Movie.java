@@ -8,7 +8,7 @@ public class Movie {
     public long id;
     public String title;
     public String overview;
-	@Json(name = "genres")
+    @Json(name = "genres")
     public List<Genre> genres;
     @Json(name = "genre_ids")
     public List<Integer> genreIds;
@@ -18,14 +18,14 @@ public class Movie {
     public String backdropPath;
     @Json(name = "release_date")
     public String releaseDate;
-
+    
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Movie)) return false;
-
+    
         Movie movie = (Movie) o;
-
+    
         if (id != movie.id) return false;
         if (title != null ? !title.equals(movie.title) : movie.title != null) return false;
         if (overview != null ? !overview.equals(movie.overview) : movie.overview != null)
@@ -39,7 +39,7 @@ public class Movie {
             return false;
         return releaseDate != null ? releaseDate.equals(movie.releaseDate) : movie.releaseDate == null;
     }
-
+    
     @Override
     public int hashCode() {
         int result = (int) (id ^ (id >>> 32));
@@ -52,7 +52,7 @@ public class Movie {
         result = 31 * result + (releaseDate != null ? releaseDate.hashCode() : 0);
         return result;
     }
-
+    
     @Override
     public String toString() {
         return "Movie{" +

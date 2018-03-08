@@ -21,25 +21,25 @@ import java.util.List;
 public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
 
     private @NonNull final List<Movie> movies = new ArrayList<>();
-	private final OnItemClickListener mItemClickListener;
-
-	HomeAdapter(@NonNull OnItemClickListener itemClickListener) {
-    	this.mItemClickListener = itemClickListener;
+    private final OnItemClickListener mItemClickListener;
+    
+    HomeAdapter(@NonNull OnItemClickListener itemClickListener) {
+        this.mItemClickListener = itemClickListener;
     }
-
-	interface OnItemClickListener {
-		void onItemClick(Movie item);
-	}
-
+    
+    interface OnItemClickListener {
+        void onItemClick(Movie item);
+    }
+    
     static class ViewHolder extends RecyclerView.ViewHolder {
-
+    
         private final MovieImageUrlBuilder movieImageUrlBuilder = new MovieImageUrlBuilder();
-
+        
         private final TextView titleTextView;
         private final TextView genresTextView;
         private final TextView releaseDateTextView;
         private final ImageView posterImageView;
-
+        
         ViewHolder(View itemView) {
             super(itemView);
             titleTextView = itemView.findViewById(R.id.titleTextView);
@@ -47,12 +47,12 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
             releaseDateTextView = itemView.findViewById(R.id.releaseDateTextView);
             posterImageView = itemView.findViewById(R.id.posterImageView);
         }
-
-	    void bind(Movie movie, OnItemClickListener listener) {
+        
+        void bind(Movie movie, OnItemClickListener listener) {
             titleTextView.setText(movie.title);
             genresTextView.setText(TextUtils.join(", ", movie.genres));
             releaseDateTextView.setText(movie.releaseDate);
-
+            
             String posterPath = movie.posterPath;
             if ( ! TextUtils.isEmpty(posterPath) ) {
                 Glide.with(itemView)
@@ -60,33 +60,33 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
                         .apply(new RequestOptions().placeholder(R.drawable.ic_image_placeholder))
                         .into(posterImageView);
             }
-
-		    itemView.setOnClickListener(v -> listener.onItemClick(movie));
+        
+            itemView.setOnClickListener(v -> listener.onItemClick(movie));
         }
     }
-
+    
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.movie_item, parent, false);
         return new ViewHolder(view);
     }
-
+    
     @Override
     public int getItemCount() {
         return movies.size();
     }
-
+    
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.bind(movies.get(position), mItemClickListener);
     }
-
+    
     void addItems(@NonNull List<Movie> results) {
-
+    
         int previousSize = this.movies.size();
         int amountOfItemsToAdd = results.size();
-
+    
         this.movies.addAll(results);
         notifyItemRangeInserted( previousSize, amountOfItemsToAdd );
     }
