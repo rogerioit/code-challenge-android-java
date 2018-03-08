@@ -11,20 +11,20 @@ interface MovieDetailsContract {
 
 	interface View {
 		void hideProgressBar();
-
+	
 		void setPosterImage(String uri);
-
+	
 		void setMovieTitle(String title);
-
+	
 		void setMovieReleaseDate(String releaseDate);
-
+	
 		void setMovieGenres(List<Genre> genres);
-
+	
 		void setMovieOverview(String movieOverview);
-
+	
 		void showMovieData();
 	}
-
+	
 	interface Presenter {
 		void loadMovieData(long movieId);
 	}
