@@ -8,19 +8,34 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/bottomProgressBar"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
         android:clipToPadding="false"
         android:paddingBottom="12dp"
         android:paddingTop="12dp"
         app:layoutManager="android.support.v7.widget.LinearLayoutManager"
         tools:itemCount="10"
-        tools:listitem="@layout/movie_item" />
+        tools:listitem="@layout/movie_item"/>
 
     <ProgressBar
-        android:id="@+id/progressBar"
+        android:id="@+id/centeredProgressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        tools:visibility="gone" />
+        android:visibility="visible"
+        tools:visibility="visible"/>
+
+    <ProgressBar
+        android:id="@+id/bottomProgressBar"
+        android:layout_width="@dimen/bottomProgressBarSize"
+        android:layout_height="@dimen/bottomProgressBarSize"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="false"
+        android:layout_marginBottom="4dp"
+        android:visibility="gone"
+        tools:visibility="visible"/>
 
 </RelativeLayout>
